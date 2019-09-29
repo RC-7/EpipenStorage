@@ -4,8 +4,8 @@ from flask import flask
 
 
 def main():
-    fl=flask(1)
-    fl.updateTemp(12)
+    fl=flask(3)
+    fl.updateTemp(20)
 
 
 

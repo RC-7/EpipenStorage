@@ -69,7 +69,7 @@ class tempModel():
                 /((math.sin(2*self.lambdaVals[i])*a)/(4*self.lambdaVals[i])+(a)/(2))     
 
 
-            exponent=(-1*self.k[int(temps[0]/5)*5]*10**(-3)*(self.lambdaVals[i]**2)*self.timeInterval)/(self.density*self.specificHeat)
+            exponent=(-1*self.k[int(temps[0]/5)*5]*10**(0)*(self.lambdaVals[i]**2)*self.timeInterval)/(self.density*self.specificHeat)
            
         # print(exponent)
 

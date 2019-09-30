@@ -1,5 +1,7 @@
 import math
 from temperatureModel import tempModel
+import pandas
+import matplotlib.pyplot as plt
 
 class flask():
     def __init__(self,modelNumber):
@@ -13,9 +15,6 @@ class flask():
         self.model=tempModel(modelNumber)
         self.density=1.1839                     #Make depd on temperature, units kg/m^3
         self.specificHeat=1.005                 #Make depd on temperature,
-
-        self.outfile="Model"+str(modelNumber)+".txt"
-
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
         5:24.74,
         10:25.12,
@@ -23,14 +22,20 @@ class flask():
         20:25.87,
         25:26.24,
         30:26.62,
+        35:26.82,
         40:27.35,
         45:27.5,
         50:28.08}
+        # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radius  
+        self.outfile="Model"+str(modelNumber)+".txt"
+
+
 
         self.U=(0.001*self.k[int(self.tempInner/5)*5])/self.radius              #Made 1-100th
 
 
     def updateOverallCoefficient(self):
+        # print(self.tempInner)
         self.U=(0.001*self.k[int(self.tempInner/5)*5]*10**(-3))/self.radius
 
 
@@ -45,4 +50,17 @@ class flask():
             f.write(str(self.tempInner)+","+str(ambient)+"\n")
 
 
-       
+    def visualisedata(self):
+        dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
+        df = pandas.DataFrame(dataFile)
+        
+        print(df)
+        # plt.plot( y='Internal', kind = 'line')
+        fig, axes = plt.subplots(nrows=2, ncols=1)
+        axes[0].axhline(y=3, color='r', linestyle='-')
+        axes[0].axhline(y=15, color='r', linestyle='-')
+        line=df.plot(ax=axes[0],kind='line',y='Internal')
+        
+        line=df.plot(ax=axes[1],kind='line',y='Ambient')
+        
+        plt.show()

@@ -10,8 +10,11 @@ def main():
     with open("temp.csv") as f:
         for temp in f:
             # temperature=float(temp)
-            print(temp)
+            # print(temp)
             fl.updateTemp(float(temp))
+
+    
+    fl.visualisedata()
             
 
 

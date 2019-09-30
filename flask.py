@@ -36,9 +36,8 @@ class flask():
 
     def updateOverallCoefficient(self):
         # print(self.tempInner)
+        print(self.tempInner)
         self.U=(0.001*self.k[int(self.tempInner/5)*5]*10**(-3))/self.radius
-
-
 
 
     def updateTemp(self,ambient):              
@@ -48,6 +47,7 @@ class flask():
         
         with open(self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
             f.write(str(self.tempInner)+","+str(ambient)+"\n")
+
 
 
     def visualisedata(self):
@@ -66,11 +66,8 @@ class flask():
         plt.show()
 
 
-
     
     def visualiseTempDiff(self):
-        # dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
-        # df = pandas.DataFrame(dataFile)
 
         diff=[]
 
@@ -78,12 +75,16 @@ class flask():
             for line in f:
                 temps=line.split(",")
                 if((float(temps[0])>15)):
-                    diff.append(float(temps[0])-15)
+                    diff.append((float(temps[0])-15))
+                    # print(temps[0])
+                    if ((float(temps[0])-15)>15):
+                        print(float(temps[0])-15)
+                        print(temps[0])
+                        print("-----")
                 elif(float(temps[0])<3):
-                    diff.append(3-float(temps[0]))
+                    diff.append((3-float(temps[0])))
                 else:
                     diff.append(0)
-
 
         plt.plot(diff)
         plt.show()

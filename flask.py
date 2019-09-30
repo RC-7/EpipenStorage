@@ -41,8 +41,8 @@ class flask():
         # print((self.volumeInner*self.density)/(100**3))
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
-        # with open(self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
-        #     f.write(str(self.tempInner)+","+str(ambient)+"\n")
+        with open(self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
+            f.write(str(self.tempInner)+","+str(ambient)+"\n")
 
 
        

@@ -40,13 +40,12 @@ class tempModel():
             step=(((2*i-1)*math.pi/(2*a))-((i-1)*math.pi/(a)))/100                  
             lastLambda=((i-1)*math.pi/(a))+step
             while(not solved):
-                if(math.tan(lastLambda*a)-self.convectionCoeff/(self.specificHeat*lastLambda)<0.01):
+                if(math.tan(lastLambda*a)-self.convectionCoeff/(self.specificHeat*lastLambda)<0.001):
                     lambdas.append(lastLambda)
                 if(lastLambda>((2*i-1)*math.pi/(2*a))):
                     
                     break
                 lastLambda=lastLambda+step
-        
         return lambdas
 
 
@@ -56,14 +55,19 @@ class tempModel():
 # [self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ]
     def paperModel(self,temps):
 
-        newtemp=temps
+        newtemp=temps[0]
+
         for i in range(31):
 
-            B = ()/()                   #Fix numerator
+            B = 1
 
             exponent=(self.k[int(temps[0]/5)*5]*10**(-3)*(self.lambdaVals[i]**2)*self.timeInterval)/(self.density*self.specificHeat)
 
             newtemp=newtemp+B*math.cos(self.lambdaVals[i]*self.y)*math.exp(exponent)
+
+        print(newtemp)
+
+        return newtemp
 
 
 

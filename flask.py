@@ -64,3 +64,28 @@ class flask():
         line=df.plot(ax=axes[1],kind='line',y='Ambient')
         
         plt.show()
+
+
+
+    
+    def visualiseTempDiff(self):
+        # dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
+        # df = pandas.DataFrame(dataFile)
+
+        diff=[]
+
+        with open(self.outfile, 'r') as f:
+            for line in f:
+                temps=line.split(",")
+                if((float(temps[0])>15)):
+                    diff.append(float(temps[0])-15)
+                elif(float(temps[0])<3):
+                    diff.append(3-float(temps[0]))
+                else:
+                    diff.append(0)
+
+
+        plt.plot(diff)
+        plt.show()
+
+ 

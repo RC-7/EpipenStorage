@@ -10,7 +10,7 @@ class tempModel():
         
         self.convectionCoeff=10
         self.density=1.1839                     #Make depd on temperature, units kg/m^3
-        self.specificHeat=1.005
+        self.specificHeat=10
         self.y=0.15  
         self.lambdaVals = self.initLambda()
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
@@ -46,7 +46,7 @@ class tempModel():
                     lambdas.append(lastLambda)
                     solved=True
                 if(lastLambda>((2*i-1)*math.pi/(2*a))):
-                    print("nooooooo")
+                    # print("nooooooo")
                     break
                 lastLambda=lastLambda+step
 

@@ -36,7 +36,6 @@ class flask():
 
     def updateOverallCoefficient(self):
         # print(self.tempInner)
-        print(self.tempInner)
         self.U=(0.001*self.k[int(self.tempInner/5)*5]*10**(-3))/self.radius
 
 
@@ -54,7 +53,7 @@ class flask():
         dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
         df = pandas.DataFrame(dataFile)
         
-        print(df)
+        # print(df)
         # plt.plot( y='Internal', kind = 'line')
         fig, axes = plt.subplots(nrows=2, ncols=1)
         axes[0].axhline(y=3, color='r', linestyle='-')
@@ -77,10 +76,10 @@ class flask():
                 if((float(temps[0])>15)):
                     diff.append((float(temps[0])-15))
                     # print(temps[0])
-                    if ((float(temps[0])-15)>15):
-                        print(float(temps[0])-15)
-                        print(temps[0])
-                        print("-----")
+                    # if ((float(temps[0])-15)>15):
+                    #     print(float(temps[0])-15)
+                    #     print(temps[0])
+                    #     print("-----")
                 elif(float(temps[0])<3):
                     diff.append((3-float(temps[0])))
                 else:

@@ -9,14 +9,26 @@ class tempModel():
 
         
         self.convectionCoeff=10
-        self.specificHeat=1.005  
+        self.density=1.1839                     #Make depd on temperature, units kg/m^3
+        self.specificHeat=1.005
+        self.y=0.15  
         self.lambdaVals = self.initLambda()
+        self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
+        5:24.74,
+        10:25.12,
+        15:25.50,
+        20:25.87,
+        25:26.24,
+        30:26.62,
+        40:27.35,
+        45:27.5,
+        50:28.08}
                    #Make depd on temperature,
 
 
 
 
-    # [self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ]
+    
 
     def initLambda(self):
         lambdas=[]
@@ -41,12 +53,17 @@ class tempModel():
 
 
 
-
+# [self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ]
     def paperModel(self,temps):
-        pass
 
+        newtemp=temps
+        for i in range(31):
 
-        # for i in range(31):
+            B = ()/()                   #Fix numerator
+
+            exponent=(self.k[int(temps[0]/5)*5]*10**(-3)*(self.lambdaVals[i]**2)*self.timeInterval)/(self.density*self.specificHeat)
+
+            newtemp=newtemp+B*math.cos(self.lambdaVals[i]*self.y)*math.exp(exponent)
 
 
 

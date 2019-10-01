@@ -5,7 +5,7 @@ class tempModel():
         self.timeInterval=60*60
         # self.models=[""]              #Add list of model names assigned
 
-        self.modelMethod = {1:self.paperModel,2:self.ownModel,3:self.simplifiedPaper}
+        self.modelMethod = {1:self.paperModel,2:self.fourierModel,3:self.simplifiedPaper}
 
         
         self.convectionCoeff=10
@@ -29,9 +29,9 @@ class tempModel():
 
         #calculate so not just assuming these inital conditions also move to flask class
 
-        self.outerwall=8
+        self.outerwall=12
 
-        self.innerWall=8
+        self.innerWall=10
 
 
 
@@ -91,12 +91,13 @@ class tempModel():
     def fourierConvectionSolution(self,temps,outerR,k):
         a=(k*2*math.pi*0.16)/(temps[4]*math.log(outerR/(outerR-0.002)))            #uses length of container
         # newTemp=temps[1]*(1-math.exp(-a*self.timeInterval))+math.exp(-a*self.timeInterval)*temps[0]
-        newTemp=temps[1]+math.exp(-a*self.timeInterval)*(temps[0]-temps[1])
+        # print(a)
+        newTemp=temps[1]+math.exp(-k*self.timeInterval)*(temps[0]-temps[1])
         return newTemp
 
 
     
-    def ownModel(self,temps):
+    def fourierModel(self,temps):
 
         stainlessK=14.4             #conduction coeficient Stainless steel, maybe make temp dependant
         outerR=2/100
@@ -106,13 +107,17 @@ class tempModel():
 
         temps[0]=self.outerwall
 
+
         self.outerwall=self.fourierConvectionSolution(temps,outerR,stainlessK)  #Temp on inside of outer wall
 
         temps[1]=self.outerwall
 
         temps[0]=self.innerWall
 
-        self.innerWall=self.fourierConvectionSolution(temps,outerR,self.k[int(temps[0]/5)*5]*10**(-9))  #Temp on inside of outer wall
+
+        #show as vacuum becomes proper vaccum gives much better performance
+
+        self.innerWall=self.fourierConvectionSolution(temps,outerR,self.k[int(temps[0]/5)*5]*10**(-7))  #Temp on inside of outer wall
 
         temps[1]=self.innerWall
 

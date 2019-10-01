@@ -5,7 +5,7 @@ class tempModel():
         self.model=modelNumber
         self.timeInterval=60*60
 
-        self.modelMethod = {1:self.paperModel,2:self.fourierModel,3:self.simplifiedPaper,4:self.resistorAnalogue}
+        self.modelMethod = {0:self.paperModel,1:self.fourierModel,2:self.simplifiedPaper,3:self.resistorAnalogue}
 
         self.convectionCoeff=10                 #Make depd on temperature,
         self.density=1.1839                     #Make depd on temperature, units kg/m^3

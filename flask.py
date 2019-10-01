@@ -35,13 +35,13 @@ class flask():
 
 
     def updateOverallCoefficient(self):
-        # print(self.tempInner)
+        
         self.U=(0.001*self.k[int(self.tempInner/5)*5]*10**(-3))/self.radius
 
 
     def updateTemp(self,ambient):              
         self.updateOverallCoefficient()
-        # print((self.volumeInner*self.density)/(100**3))
+        
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
         with open(self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
@@ -50,36 +50,27 @@ class flask():
 
 
     def visualisedata(self):
+
         dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
         df = pandas.DataFrame(dataFile)
-        
-        # print(df)
-        # plt.plot( y='Internal', kind = 'line')
+
         fig, axes = plt.subplots(nrows=2, ncols=1)
         axes[0].axhline(y=3, color='r', linestyle='-')
         axes[0].axhline(y=15, color='r', linestyle='-')
         line=df.plot(ax=axes[0],kind='line',y='Internal')
-        
         line=df.plot(ax=axes[1],kind='line',y='Ambient')
         
         plt.show()
 
-
-    
     def visualiseTempDiff(self):
 
         diff=[]
-
         with open(self.outfile, 'r') as f:
             for line in f:
                 temps=line.split(",")
                 if((float(temps[0])>15)):
                     diff.append((float(temps[0])-15))
-                    # print(temps[0])
-                    # if ((float(temps[0])-15)>15):
-                    #     print(float(temps[0])-15)
-                    #     print(temps[0])
-                    #     print("-----")
+                    
                 elif(float(temps[0])<3):
                     diff.append((3-float(temps[0])))
                 else:

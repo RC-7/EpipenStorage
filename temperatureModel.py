@@ -32,13 +32,13 @@ class tempModel():
         #Below uses L of 0.16
         self.rSteelOuter=(math.log(self.outerR/(self.outerR-0.01)))/(2*math.pi*self.stainlessK*0.16)
         self.rSteelInner=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.stainlessK*0.16)
-        self.rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*25*10**-3*0.16)  #MAKE DYNAMIC!!
+        self.rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*25*10**-3*0.16)  
         self.rVac=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*25*10**-5*0.16) #Show how this changes things!!
 
         self.totalR=self.rSteelInner+self.rSteelOuter+self.rAir+self.rVac
-                  
-        #calculate, so not just assuming these inital conditions, and move to flask class
 
+
+        #calculate, so not just assuming these inital conditions, and move to flask class
         self.outerwall=12
         self.innerWall=10
 
@@ -51,9 +51,9 @@ class tempModel():
         lambdas=[]
         solved=False
         lastLambda=0
-        a=0.16                        #a is length of flask
+        a=0.16                        #a is length of flask in m
         
-        for i in range(31):         #can do more for both!
+        for i in range(31):         #can do more terms for both, the lambda calc and using them!
             solved=False
             step=(((2*i-1)*math.pi/(2*a))-((i-1)*math.pi/(a)))/10000                  
             lastLambda=((i-1)*math.pi/(a))+step
@@ -62,7 +62,7 @@ class tempModel():
                     lambdas.append(lastLambda)
                     solved=True
                 if(lastLambda>((2*i-1)*math.pi/(2*a))):
-                    # print("nooooooo")
+                    
                     break
                 lastLambda=lastLambda+step
 
@@ -77,37 +77,28 @@ class tempModel():
         a=0.16  
 
         newtemp=temps[1]
-        # print(temps[1])
+        
 
         for i in range(31):
             #beginning assumes uniform distro, can do some stuff and change that if i want
             B = (temps[0]-temps[1])*math.sin(a*self.lambdaVals[i])/(self.lambdaVals[i])\
                 /((math.sin(2*self.lambdaVals[i])*a)/(4*self.lambdaVals[i])+(a)/(2))     
 
-
             exponent=(-1*self.k[int(temps[0]/5)*5]*10**(0)*(self.lambdaVals[i]**2)*self.timeInterval)/(self.density*self.specificHeat)
            
-        # print(exponent)
-
             newtemp=newtemp+B*math.cos(self.lambdaVals[i]*self.y)*math.exp(exponent)
-
-        # print(newtemp)
 
         return newtemp
 
-    
 
     def fourierConvectionSolution(self,temps,outerR,k,c):
         # a=(k*2*math.pi*0.16)/(temps[4]*c*math.log(outerR/(outerR-0.002)))            #uses length of container
 
         # newTemp=temps[1]*(1-math.exp(a*self.timeInterval))+math.exp(a*self.timeInterval)*temps[0]
-        # print(a)
 
         newTemp=temps[1]+math.exp(-k*self.timeInterval)*(temps[0]-temps[1])
 
         return newTemp
-
-
     
     def fourierModel(self,temps):
 
@@ -141,10 +132,10 @@ class tempModel():
 
     def resistorAnalogue(self,temps):
 
-        #doesnt account for negative both?
+        
 
-        self.rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-3)*0.16)  #MAKE DYNAMIC!!
-        self.rVac=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-6)*0.16)
+        self.rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-3)*0.16) 
+        self.rVac=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-6)*0.16) #can change to show how ideal vacuum helps 
         
         Q=(abs(temps[1]-temps[0]))/self.totalR
         # print(Q)
@@ -160,7 +151,10 @@ class tempModel():
 
 
     def newTemp(self,temps):
+        
         return self.modelMethod[self.model](temps)          #Inner then ambient
+
+
         # [self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ]
     
 

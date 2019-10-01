@@ -4,18 +4,23 @@ from flask import flask
 
 
 def main():
-    fl=flask(4)
 
 
-    with open("temp.csv") as f:
-        for temp in f:
-            # temperature=float(temp)
-            # print(temp)
-            fl.updateTemp(float(temp))
+    for i in range(4):
+        fl=flask(i+1)
 
-    
-    fl.visualisedata()
-    fl.visualiseTempDiff()
+
+        with open("temp.csv") as f:
+            for temp in f:
+                # temperature=float(temp)
+                # print(temp)
+                fl.updateTemp(float(temp))
+
+        
+        # fl.visualisedata()
+        # fl.visualiseTempDiff()
+
+        fl.visualisePeltierPowerNeeded(60**2)
             
 
 

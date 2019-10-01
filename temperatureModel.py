@@ -4,7 +4,6 @@ class tempModel():
     def __init__(self, modelNumber):
         self.model=modelNumber
         self.timeInterval=60*60
-        # self.models=[""]              #Add list of model names assigned
 
         self.modelMethod = {1:self.paperModel,2:self.fourierModel,3:self.simplifiedPaper,4:self.resistorAnalogue}
 
@@ -151,7 +150,7 @@ class tempModel():
 
 
     def newTemp(self,temps):
-        
+
         return self.modelMethod[self.model](temps)          #Inner then ambient
 
 

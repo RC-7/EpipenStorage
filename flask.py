@@ -1,6 +1,7 @@
 import math
 from temperatureModel import tempModel
 import pandas
+import numpy as np
 import matplotlib.pyplot as plt
 
 class flask():
@@ -44,7 +45,7 @@ class flask():
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
-        with open(self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
+        with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
             f.write(str(self.tempInner)+","+str(ambient)+"\n")
 
 
@@ -65,7 +66,7 @@ class flask():
     def visualiseTempDiff(self):
 
         diff=[]
-        with open(self.outfile, 'r') as f:
+        with open("TempSim/"+self.outfile, 'r') as f:
             for line in f:
                 temps=line.split(",")
                 if((float(temps[0])>15)):
@@ -79,4 +80,43 @@ class flask():
         plt.plot(diff)
         plt.show()
 
- 
+
+    def visualisePeltierPowerNeeded(self,time):         #Visualise power needed for a peltier to heat the flask in the next minute
+
+        P=[]
+        totalP=0
+        with open("TempSim/"+self.outfile, 'r') as f:
+            for line in f:
+                temps=line.split(",")
+                if((float(temps[0])>15)):
+                    Q=self.specificHeat*(self.volumeInner*self.density)*(float(temps[0])-15)
+                    P.append(Q/(time))
+                    totalP=totalP+Q/(time)
+                    
+                elif(float(temps[0])<3):
+                    Q=self.specificHeat*(self.volumeInner*self.density)*(3-float(temps[0]))
+                    P.append(Q/(time))
+                    totalP=totalP+Q/(time)
+                else:
+                    P.append(0)
+
+
+
+        #Uncomment and make figure for later analysis
+        # plt.plot(P)
+        # plt.show()
+
+
+        np.savetxt("PowerUsage/"+self.outfile, P, fmt="%s")
+
+        with open("PowerUsage/Summary","a") as f:
+            f.write("Model "+self.outfile[5]+","+str(totalP)+"\n")
+
+        with open("PowerUsage/MaxP","a") as f:
+            f.write("Model "+self.outfile[5]+","+str(max(P))+"\n")
+
+        
+
+
+
+

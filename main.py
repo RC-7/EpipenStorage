@@ -17,10 +17,10 @@ def main():
                 fl.updateTemp(float(temp))
 
         
-        # fl.visualisedata()
+        fl.visualisedata()
         # fl.visualiseTempDiff()
 
-        fl.visualisePeltierPowerNeeded(60**2)
+        # fl.visualisePeltierPowerNeeded(60**2)
             
 
 

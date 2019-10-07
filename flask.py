@@ -4,6 +4,8 @@ import pandas
 import numpy as np
 import matplotlib.pyplot as plt
 
+from peltier import peltier
+
 class flask():
     def __init__(self,modelNumber):
         self.tempInner=8            #Set initial temperature to middle of range we want
@@ -27,6 +29,10 @@ class flask():
         40:27.35,
         45:27.5,
         50:28.08}
+
+        self.innerR=1.8/100
+
+        self.peltier=peltier()
         # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radius  
         self.outfile="Model"+str(modelNumber)+".txt"
 
@@ -45,14 +51,39 @@ class flask():
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
+        self.tempInner=self.peltierEffect(ambient,self.tempInner)
+
         with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
             f.write(str(self.tempInner)+","+str(ambient)+"\n")
+
+
+    def peltierEffect(self,ambient,internal):
+        self.peltier.updateConductivity(ambient,internal)
+
+        rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16) 
+
+        totalR=self.peltier.rn+self.peltier.rp+rAir
+
+        newtemp=0
+
+        Q=(abs(ambient-internal))/totalR
+        # print(Q)
+        dT=Q*rAir
+        
+        if(ambient>internal):
+            newtemp=internal+dT
+        else:
+            newtemp=internal-dT
+
+        return newtemp
+        
+
 
 
 
     def visualisedata(self):
 
-        dataFile = pandas.read_csv(self.outfile, names=["Internal","Ambient"])
+        dataFile = pandas.read_csv("TempSim/"+self.outfile, names=["Internal","Ambient"])
         df = pandas.DataFrame(dataFile)
 
         fig, axes = plt.subplots(nrows=2, ncols=1)

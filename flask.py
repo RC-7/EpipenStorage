@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from peltier import peltier
 
 class flask():
-    def __init__(self,modelNumber):
+    def __init__(self,modelNumber,thr,delta,power):
         self.tempInner=8            #Set initial temperature to middle of range we want
         self.radius=2/100              #initial estimate, 1.2 for eppi pen, rest for peltier and other wall
         self.wallThickness=0.1
@@ -31,11 +31,16 @@ class flask():
         50:28.08}
         self.peltierTime=0
 
+        self.peltierPower=power
+
         self.innerR=1.8/100
 
         self.peltier=peltier()
         # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radius  
         self.outfile="Model"+str(modelNumber)+".txt"
+
+        self.threshold=thr
+        self.delta=delta
 
 
 
@@ -52,7 +57,7 @@ class flask():
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
     
-        if(self.tempInner>13):              #Chose this more intelligently
+        if(self.tempInner>self.threshold):              #Chose this more intelligently
 
             self.peltier.on=True
             # print(self.peltier.on)
@@ -71,13 +76,14 @@ class flask():
 
             # self.tempInner=self.tempInner-4
 
-        with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
-            f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
+        # with open("TempSim/"+str(self.threshold)+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
+        # with open("PeltOverall/"+str(self.threshold)+self.outfile,'a') as f:  
+        #     f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
 
 
-    def peltierEffect(self,ambient,internal):
+    def peltierEffect(self,ambient,internal):           #Need to add lower check!!!!!!!!!!!!!
         
-        seondsInHourOn=1
+        seondsInHourOn=0.1
         newtemp=0
         temp=0
         cooling=False
@@ -116,18 +122,18 @@ class flask():
         else:
             newtemp=internal-dT
 
-        if(newtemp<15):
+        if(newtemp<(self.threshold)):
 
             return newtemp
         else:
             temp=newtemp
-            if(temp>15):
+            if(temp>(self.threshold)):
                 cooling=True
 
             while (cooling):
                 newtemp=temp
 
-                Q=0.2*(seondsInHourOn)
+                Q=self.peltierPower*(seondsInHourOn)
                 # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
                 dT=Q/(self.specificHeat*(self.volumeInner*self.density))
@@ -137,13 +143,13 @@ class flask():
                 # temp=newtemp
                 newtemp=newtemp-dT
                 # print(newtemp)
-                if (newtemp<15):
+                if (newtemp<(self.threshold-self.delta)):                    ##Change this 15! 
                     self.peltierTime=self.peltierTime+seondsInHourOn
                     return newtemp
                     
 
                     # cooling=False
-                seondsInHourOn=seondsInHourOn+1
+                seondsInHourOn=seondsInHourOn+0.1
 
             # return newtemp
 
@@ -265,7 +271,7 @@ class flask():
 
     def recordPeltierTime(self):
         with open("PowerUsage/TimeInUse","a") as f:
-            f.write("Model "+self.outfile[5]+","+str((self.peltierTime)/(60**2))+"\n")
+            f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(self.delta)+","+str(self.peltierPower)+","+str((self.peltierTime)/(60**2))+"\n")
 
 
         

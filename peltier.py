@@ -8,7 +8,7 @@ class peltier():
         self.rn=0
         self.rp=0
 
-        self.on=True
+        self.on=False
 
 
 

@@ -50,10 +50,20 @@ class flask():
         self.updateOverallCoefficient()
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
-        
-        # if(self.tempInner>13):              #Chose this more intelligently
-        # #     # print(self.tempInner)
-        #     self.tempInner=self.peltierEffect(ambient,self.tempInner)
+    
+        if(self.tempInner>13):              #Chose this more intelligently
+
+            self.peltier.on=True
+            # print(self.peltier.on)
+        else:
+            
+            self.peltier.on=False
+        #     # print(self.tempInner)
+
+        self.tempInner=self.peltierEffect(ambient,self.tempInner)
+
+        # if(self.tempInner>15):
+        #     print(self.tempInner)
             # self.tempInner=self.tempInner-0.068
             # print("-------")
             # print(self.tempInner)
@@ -66,8 +76,10 @@ class flask():
 
     def peltierEffect(self,ambient,internal):
         
-        seondsInHourOn=0.00000001
+        seondsInHourOn=6
         newtemp=0
+        temp=0
+        cooling=False
 
         rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
 
@@ -85,7 +97,12 @@ class flask():
 
         newtemp=0
 
-        # Q=(abs(ambient-internal))/totalR
+        Q=(abs(ambient-internal))/totalR
+
+        # dT=Q/(self.specificHeat*(self.volumeInner*self.density))
+
+        dT=Q*rAir
+
 
         # # print(Q)÷
         # # print(Q)
@@ -93,27 +110,84 @@ class flask():
 
         # # if(not self.peltier.on):  
             
-        # if(ambient>internal):
-        #     newtemp=internal+dT
-        # else:
-        #     newtemp=internal-dT
+        if(ambient>internal):
+            newtemp=internal+dT
+        else:
+            newtemp=internal-dT
+
+        if(newtemp<15):
+
+            return newtemp
+        else:
+            temp=newtemp
+            if(temp>15):
+                cooling=True
+
+            while (cooling):
+                newtemp=temp
+
+                Q=0.2*(seondsInHourOn)
+                # dT=Q/(self.density*self.volumeInner*self.specificHeat)
+
+                dT=Q/(self.specificHeat*(self.volumeInner*self.density))
+                # print(dT)
+
+                # dT=Q*rAir
+                # temp=newtemp
+                newtemp=newtemp-dT
+                print(newtemp)
+                if (newtemp<15):
+                    return newtemp
+                    cooling=False
+                seondsInHourOn=seondsInHourOn+1
+
+            # return newtemp
+
+            
 
             # return newtemp
 
         # else:
-            
-        if(self.peltier.on): 
-            # print("here")
-            Q=0.2*(seondsInHourOn)
-            # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
-            dT=Q/(self.specificHeat*(self.volumeInner*self.density))
-            # print(dT)
+        # print("here")
+        
+        # if(self.peltier.on): 
+        #     
+        #     temp=newtemp
 
-            # dT=Q*rAir
-            newtemp=newtemp-dT
+        #     if(temp>15):
+        #         cooling=True
 
-        return newtemp
+        #     while(cooling):
+
+        #         # newtemp=temp
+
+        #         Q=0.2*(seondsInHourOn)
+        #         # dT=Q/(self.density*self.volumeInner*self.specificHeat)
+
+        #         dT=Q/(self.specificHeat*(self.volumeInner*self.density))
+        #         # print(dT)
+
+        #         # dT=Q*rAir
+        #         # temp=newtemp
+        #         temp=newtemp-dT
+        #         print(temp)
+
+        #         if (temp<15):
+        #             return temp
+        #             cooling=False
+        #             seondsInHourOn=seondsInHourOn+1
+
+
+        #     else:
+        #         return newtemp
+
+
+        # if(newtemp>15):
+        #     print(dT)
+        #     print("------")
+
+        # return temp
         
 
 

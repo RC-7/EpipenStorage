@@ -5,7 +5,7 @@ from flask import flask
 
 def main():
 
-    models=[1]
+    models=[1,2,3,4]
     for i in models:
         fl=flask(i)
 
@@ -18,6 +18,7 @@ def main():
 
         
         fl.visualisedata()
+        fl.recordPeltierTime()
         # fl.visualiseTempDiff()
 
         # fl.visualisePeltierPowerNeeded(60**2)

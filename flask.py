@@ -29,6 +29,7 @@ class flask():
         40:27.35,
         45:27.5,
         50:28.08}
+        self.peltierTime=0
 
         self.innerR=1.8/100
 
@@ -76,7 +77,7 @@ class flask():
 
     def peltierEffect(self,ambient,internal):
         
-        seondsInHourOn=6
+        seondsInHourOn=1
         newtemp=0
         temp=0
         cooling=False
@@ -135,10 +136,13 @@ class flask():
                 # dT=Q*rAir
                 # temp=newtemp
                 newtemp=newtemp-dT
-                print(newtemp)
+                # print(newtemp)
                 if (newtemp<15):
+                    self.peltierTime=self.peltierTime+seondsInHourOn
                     return newtemp
-                    cooling=False
+                    
+
+                    # cooling=False
                 seondsInHourOn=seondsInHourOn+1
 
             # return newtemp
@@ -257,6 +261,12 @@ class flask():
 
         with open("PowerUsage/MaxP","a") as f:
             f.write("Model "+self.outfile[5]+","+str(max(P))+"\n")
+
+
+    def recordPeltierTime(self):
+        with open("PowerUsage/TimeInUse","a") as f:
+            f.write("Model "+self.outfile[5]+","+str((self.peltierTime)/(60**2))+"\n")
+
 
         
 

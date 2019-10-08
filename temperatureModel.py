@@ -117,7 +117,7 @@ class tempModel():
         temps[1]=innerTemp
         newTemp=self.fourierConvectionSolution(temps,innerR-0.002,self.k[int(temps[0]/5)*5]*10**(-3),self.specificHeat)  #Temp on inside of outer wall
 
-        print(newTemp-initial)
+        # print(newTemp-initial)
         return newTemp
 
 

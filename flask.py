@@ -17,7 +17,7 @@ class flask():
         self.volumeInner=math.pi*self.radius**2*self.length
         self.model=tempModel(modelNumber)
         self.density=1.1839                     #Make depd on temperature, units kg/m^3
-        self.specificHeat=1005                 #Make depd on temperature,
+        self.specificHeat=1004                 #Make depd on temperature,
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
         5:24.74,
         10:25.12,
@@ -51,9 +51,9 @@ class flask():
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
-        if(self.tempInner>13):              #Chose this more intelligently
-        #     # print(self.tempInner)
-            self.tempInner=self.peltierEffect(ambient,self.tempInner)
+        # if(self.tempInner>13):              #Chose this more intelligently
+        # #     # print(self.tempInner)
+        #     self.tempInner=self.peltierEffect(ambient,self.tempInner)
             # self.tempInner=self.tempInner-0.068
             # print("-------")
             # print(self.tempInner)
@@ -66,7 +66,7 @@ class flask():
 
     def peltierEffect(self,ambient,internal):
         
-        seondsInHourOn=1
+        seondsInHourOn=0.00000001
         newtemp=0
 
         rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
@@ -79,7 +79,7 @@ class flask():
 
         
 
-        totalR=self.peltier.rn+self.peltier.rp+rAir
+        totalR=self.peltier.rn+self.peltier.rp+rAir*2
 
         # print(totalR)
 

@@ -8,8 +8,8 @@ class tempModel():
         self.modelMethod = {1:self.paperModel,2:self.fourierModel,3:self.simplifiedPaper,4:self.resistorAnalogue}
 
         self.convectionCoeff=10                 #Make depd on temperature,
-        self.density=1.1839                     #Make depd on temperature, units kg/m^3
-        self.specificHeat=1003
+        self.density=1.29                    #Make depd on temperature, units kg/m^3
+        self.specificHeat=10
         self.y=0.15  
         self.lambdaVals = self.initLambda()
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
@@ -88,7 +88,6 @@ class tempModel():
             newtemp=newtemp+B*math.cos(self.lambdaVals[i]*self.y)*math.exp(exponent)
 
         return newtemp
-
 
     def fourierConvectionSolution(self,temps,outerR,k,c):
         # a=(k*2*math.pi*0.16)/(temps[4]*c*math.log(outerR/(outerR-0.002)))            #uses length of container

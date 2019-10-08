@@ -22,3 +22,6 @@ class peltier():
 
         self.rn=(3*10**-3)/((self.kn*(6*4*10**-6))*10**0)
         self.rp=(3*10**-3)/((self.kp*(6*4*10**-6))*10**0)
+
+
+        # print(self.rp)

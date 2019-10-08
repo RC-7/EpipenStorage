@@ -9,7 +9,7 @@ class tempModel():
 
         self.convectionCoeff=10                 #Make depd on temperature,
         self.density=1.1839                     #Make depd on temperature, units kg/m^3
-        self.specificHeat=10
+        self.specificHeat=1003
         self.y=0.15  
         self.lambdaVals = self.initLambda()
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
@@ -136,8 +136,18 @@ class tempModel():
 
         self.rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-3)*0.16) 
         
-        self.rVac=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-6)*0.16) #can change to show how ideal vacuum helps 
+        self.rVac=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(temps[0]/5)*5]*10**(-5)*0.16) #can change to show how ideal vacuum helps 
         
+
+        self.rSteelOuter=(math.log(self.outerR/(self.outerR-0.01)))/(2*math.pi*self.stainlessK*0.16)
+        self.rSteelInner=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.stainlessK*0.16)
+        
+
+        self.totalR=self.rSteelInner+self.rSteelOuter+self.rAir+self.rVac
+
+        # print(self.totalR-self.rVac)
+
+
         Q=(abs(temps[1]-temps[0]))/self.totalR
         # print(Q)
         dT=Q*self.rAir

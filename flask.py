@@ -17,7 +17,7 @@ class flask():
         self.volumeInner=math.pi*self.radius**2*self.length
         self.model=tempModel(modelNumber)
         self.density=1.1839                     #Make depd on temperature, units kg/m^3
-        self.specificHeat=1.005                 #Make depd on temperature,
+        self.specificHeat=1005                 #Make depd on temperature,
         self.k={0:24.36,            #Assumes this is temp range inside will be opperating at
         5:24.74,
         10:25.12,
@@ -61,51 +61,59 @@ class flask():
             # self.tempInner=self.tempInner-4
 
         with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
-            f.write(str(self.tempInner)+","+str(ambient)+"\n")
+            f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
 
 
     def peltierEffect(self,ambient,internal):
         
-        seondsInHourOn=(60**2)*0.4
+        seondsInHourOn=1
         newtemp=0
 
-        # rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16) 
+        rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
 
-        if(not self.peltier.on):
+        # print(rAir)
 
-            self.peltier.updateConductivity(ambient,internal)
+              #Fox this, will conduct for the rest of that hour if not on! 
 
+        self.peltier.updateConductivity(ambient,internal)
+
+        
+
+        totalR=self.peltier.rn+self.peltier.rp+rAir
+
+        # print(totalR)
+
+        newtemp=0
+
+        # Q=(abs(ambient-internal))/totalR
+
+        # # print(Q)÷
+        # # print(Q)
+        # dT=Q*rAir
+
+        # # if(not self.peltier.on):  
             
+        # if(ambient>internal):
+        #     newtemp=internal+dT
+        # else:
+        #     newtemp=internal-dT
 
-            totalR=self.peltier.rn+self.peltier.rp+rAir
+            # return newtemp
 
-            newtemp=0
-
-            Q=(abs(ambient-internal))/totalR
-            # print(Q)
-            dT=Q*rAir
+        # else:
             
-            if(ambient>internal):
-                newtemp=internal+dT
-            else:
-                newtemp=internal-dT
-
-            return newtemp
-
-        else:
-            
-            
+        if(self.peltier.on): 
             # print("here")
             Q=0.2*(seondsInHourOn)
             # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
-            dT=Q/self.specificHeat*(self.volumeInner*self.density)
+            dT=Q/(self.specificHeat*(self.volumeInner*self.density))
             # print(dT)
 
             # dT=Q*rAir
-            newtemp=internal-dT
+            newtemp=newtemp-dT
 
-            return newtemp
+        return newtemp
         
 
 

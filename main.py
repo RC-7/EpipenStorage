@@ -5,7 +5,7 @@ from flask import flask
 
 def main():
 
-    models=[1,3,4]
+    models=[4]
     for i in models:
         fl=flask(i)
 

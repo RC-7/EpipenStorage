@@ -91,15 +91,9 @@ class flask():
         rAir = (math.log(self.innerR/(self.innerR-0.01))) / \
             (2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
 
-        # print(rAir)
-
-        # Fox this, will conduct for the rest of that hour if not on!
-
         self.peltier.updateConductivity(ambient, internal)
 
         totalR = self.peltier.rn+self.peltier.rp+rAir*2
-
-        # print(totalR)
 
         newtemp = 0
 

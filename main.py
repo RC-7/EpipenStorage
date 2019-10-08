@@ -32,7 +32,7 @@ def main():
                     fl.recordPeltierTime()
                     # fl.visualiseTempDiff()
 
-                    # fl.visualisePeltierPowerNeeded(60**2)
+                    # fl.visualisePeltierPowerNeeded(60**2)     #Loop times here for post analysis, maybe also do a calc for time given P
 
 
 if __name__ == "__main__":

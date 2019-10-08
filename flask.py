@@ -51,31 +51,61 @@ class flask():
         
         self.tempInner=self.model.newTemp([self.tempInner,ambient, self.U,self.areainner,(self.volumeInner*self.density),self.specificHeat ])
         
-        self.tempInner=self.peltierEffect(ambient,self.tempInner)
+        if(self.tempInner>13):              #Chose this more intelligently
+        #     # print(self.tempInner)
+            self.tempInner=self.peltierEffect(ambient,self.tempInner)
+            # self.tempInner=self.tempInner-0.068
+            # print("-------")
+            # print(self.tempInner)
+
+            # self.tempInner=self.tempInner-4
 
         with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
             f.write(str(self.tempInner)+","+str(ambient)+"\n")
 
 
     def peltierEffect(self,ambient,internal):
-        self.peltier.updateConductivity(ambient,internal)
-
-        rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16) 
-
-        totalR=self.peltier.rn+self.peltier.rp+rAir
-
+        
+        seondsInHourOn=(60**2)*0.4
         newtemp=0
 
-        Q=(abs(ambient-internal))/totalR
-        # print(Q)
-        dT=Q*rAir
-        
-        if(ambient>internal):
-            newtemp=internal+dT
+        # rAir=(math.log(self.innerR/(self.innerR-0.01)))/(2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16) 
+
+        if(not self.peltier.on):
+
+            self.peltier.updateConductivity(ambient,internal)
+
+            
+
+            totalR=self.peltier.rn+self.peltier.rp+rAir
+
+            newtemp=0
+
+            Q=(abs(ambient-internal))/totalR
+            # print(Q)
+            dT=Q*rAir
+            
+            if(ambient>internal):
+                newtemp=internal+dT
+            else:
+                newtemp=internal-dT
+
+            return newtemp
+
         else:
+            
+            
+            # print("here")
+            Q=0.2*(seondsInHourOn)
+            # dT=Q/(self.density*self.volumeInner*self.specificHeat)
+
+            dT=Q/self.specificHeat*(self.volumeInner*self.density)
+            # print(dT)
+
+            # dT=Q*rAir
             newtemp=internal-dT
 
-        return newtemp
+            return newtemp
         
 
 

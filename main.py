@@ -5,9 +5,9 @@ from flask import flask
 
 def main():
 
-
-    for i in range(4):
-        fl=flask(i+1)
+    models=[1,3,4]
+    for i in models:
+        fl=flask(i)
 
 
         with open("temp.csv") as f:

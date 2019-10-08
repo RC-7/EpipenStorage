@@ -111,13 +111,14 @@ class tempModel():
         temps[1]=self.outerwall
         temps[0]=self.innerWall
         #show as vacuum becomes actual vaccum gives much better performance
-        self.innerWall=self.fourierConvectionSolution(temps,outerR,self.k[int(temps[0]/5)*5]*10**(-7),self.specificHeat)  #Temp on inside of outer wall
+        self.innerWall=self.fourierConvectionSolution(temps,outerR,self.k[int(temps[0]/5)*5]*10**(-7),self.specificHeat)  #Temp on inside of outer wall, change back to -7
         temps[1]=self.innerWall
         temps[0]=initial
         innerTemp=self.fourierConvectionSolution(temps,innerR-0.002,stainlessK,502)  #Temp on inside of outer wall
         temps[1]=innerTemp
         newTemp=self.fourierConvectionSolution(temps,innerR-0.002,self.k[int(temps[0]/5)*5]*10**(-3),self.specificHeat)  #Temp on inside of outer wall
 
+        print(newTemp-initial)
         return newTemp
 
 

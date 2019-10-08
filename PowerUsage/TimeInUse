@@ -34,7 +34,7 @@ Model 2,14,13.322527777777768
 Model 3,14,4.181555555555566
 Model 4,14,4.283472222222226
 --------- Below makes sure gets to below a delta from thresh if is working------------
-Model,Threshold,delta,Hours in Use
+Model,Threshold,delta,power (W),Hours in Use
 Model 1,10,0,0.2,7.06030555555554
 Model 1,10,0,0.3,4.722166666666682
 Model 1,10,0,0.4,3.553166666666668

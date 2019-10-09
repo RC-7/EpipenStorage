@@ -41,13 +41,13 @@ class flask():
         self.innerR = 1.8/100
 
         self.peltier = peltier()
-        # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radius
+        # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radiuss
         self.outfile = "Model"+str(modelNumber)+".txt"
 
         self.threshold = thr
         self.delta = delta
 
-        self.U = (0.001*self.k[int(self.tempInner/5)*5]) / \
+        self.U = (0.001*self.k[int(self.tempInner/5)*5]*10**(-3)) / \
             self.radius  # Made 1-100th
 
     def updateOverallCoefficient(self):
@@ -58,7 +58,7 @@ class flask():
         self.updateOverallCoefficient()
 
         self.tempInner = self.model.newTemp(
-            [self.tempInner, ambient, self.U, self.areainner, (self.volumeInner*self.density), self.specificHeat])
+            [self.tempInner, ambient, self.U, self.areainner, (self.volumeInner*self.density), 1])      #1 is off by an order of magnitude??
 
         if(self.tempInner > self.threshold):  # Chose this more intelligently
 

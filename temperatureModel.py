@@ -120,9 +120,9 @@ class tempModel():
         # print(newTemp-initial)
         return newTemp
 
-    def simplifiedPaper(self, temps):
-        newTemp = (temps[0]-temps[1])*math.exp(((-temps[2]*temps[3] /
-                                                 (100**3))/(temps[4]*temps[5]))*self.timeInterval)+temps[1]
+    def simplifiedPaper(self,temps):
+        # temps[5]=10
+        newTemp=(temps[0]-temps[1])*math.exp(((-temps[2]*temps[3]/(100**3))/(temps[4]*temps[5]))*self.timeInterval)+temps[1]
         # print (newTemp)
         return newTemp
 

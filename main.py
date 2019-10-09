@@ -20,7 +20,7 @@ def main():
     # models = [1, 2, 3, 4]
     # power = [0.2]
 
-    models = [1,2,4]
+    models = [1]
 
     kVals=[15]
 
@@ -33,7 +33,7 @@ def main():
                 # Timestep model runs for as input too maybe?
                 fl = flask(i, k, delta, 0.2)
 
-                with open("test.txt") as f:
+                with open("step.txt") as f:
                     for temp in f:
                         # temperature=float(temp)
                         # print(temp)

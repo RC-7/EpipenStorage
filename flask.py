@@ -8,7 +8,7 @@ from peltier import peltier
 
 
 class flask():
-    def __init__(self, modelNumber, thr, delta, power,timeThresh):
+    def __init__(self, modelNumber, thr, delta, power):
         self.tempInner = 8  # Set initial temperature to middle of range we want
         self.radius = 2/100  # initial estimate, 1.2 for eppi pen, rest for peltier and other wall
         self.wallThickness = 0.1
@@ -34,7 +34,7 @@ class flask():
                   50: 28.08}
         self.peltierTime = 0
         self.maxPeltPower=0.2
-        self.timeThresh=timeThresh
+        # self.timeThresh=timeThresh
 
         self.peltierPower = power
 
@@ -69,7 +69,7 @@ class flask():
             self.peltier.on = False
         #     # print(self.tempInner)
 
-        self.tempInner = self.peltierEffect(ambient, self.tempInner)
+        # self.tempInner = self.peltierEffect(ambient, self.tempInner)          #Uncomment Me
 
         # if(self.tempInner>15):
         #     print(self.tempInner)
@@ -79,9 +79,9 @@ class flask():
 
         # self.tempInner=self.tempInner-4
 
-        # with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
+        with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
         # with open("PeltOverall/"+str(self.threshold)+self.outfile,'a') as f:
-        #     f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
+            f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
 
     def peltierEffect(self, ambient, internal):  # Need to add lower check!!!!!!!!!!!!!
 
@@ -118,36 +118,36 @@ class flask():
 
             while (cooling):
 
-                if (secondsInHourOn<self.timeThresh):
-                    newtemp = temp
+                # if (secondsInHourOn<self.timeThresh):
+                newtemp = temp
 
-                    Q = self.peltierPower*(secondsInHourOn)
-                    # dT=Q/(self.density*self.volumeInner*self.specificHeat)
+                Q = self.peltierPower*(secondsInHourOn)
+                # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
-                    dT = Q/(self.specificHeat*(self.volumeInner*self.density))
-                    # print(dT)
+                dT = Q/(self.specificHeat*(self.volumeInner*self.density))
+                # print(dT)
 
-                    # dT=Q*rAir
-                    # temp=newtemp
-                    newtemp = newtemp-dT
-                    # print(newtemp)
-                    if (newtemp < (self.threshold-self.delta)):
+                # dT=Q*rAir
+                # temp=newtemp
+                newtemp = newtemp-dT
+                # print(newtemp)
+                if (newtemp < (self.threshold-self.delta)):
 
-                        self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
+                    self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
 
-                        if(self.peltierPower>self.maxPeltPower):
-                            self.maxPeltPower=self.peltierPower
+                    if(self.peltierPower>self.maxPeltPower):
+                        self.maxPeltPower=self.peltierPower
 
-                        self.peltierPower=0.2
+                    self.peltierPower=0.2
 
-                        return newtemp
+                    return newtemp
 
                     # cooling=False
                     secondsInHourOn = secondsInHourOn+0.1
 
-                else:
-                    secondsInHourOn=0.1
-                    self.peltierPower=self.peltierPower+0.1
+                # else:
+                #     secondsInHourOn=0.1
+                #     self.peltierPower=self.peltierPower+0.1
 
     def visualisedata(self):
 
@@ -216,5 +216,8 @@ class flask():
 
     def recordPeltierTime(self):
         with open("PowerUsage/varPower", "a") as f:
+            # f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(
+            #     self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+","+str(self.timeThresh)+"\n")
             f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(
-                self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+","+str(self.timeThresh)+"\n")
+                self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+"\n")
+            

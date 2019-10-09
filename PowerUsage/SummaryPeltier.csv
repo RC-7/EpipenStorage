@@ -12,3 +12,19 @@ Model 1,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.743694444, 'mAh'
 Model 2,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 11.53375, 'mAh': 2306.75}"
 Model 3,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.682138889, 'mAh': 736.4277778000001}"
 Model 4,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.77325, 'mAh': 754.6500000000001}"
+
+
+---------------------------- Below Model,thresh,max power used, mAh used ----------------------------------------
+Model 1,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.30000000000000004, 'Time': 2.4962407407407405, 'mAh': 748.8722222222223}"
+Model 2,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.7, 'Time': 3.31072619047619, 'mAh': 2317.508333333333}"
+Model 3,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.30000000000000004, 'Time': 2.455194444444444, 'mAh': 736.5583333333333}"
+Model 4,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.30000000000000004, 'Time': 2.516009259259259, 'mAh': 754.8027777777778}"
+
+
+
+---------------------------- Below Model,thresh,max power used, mAh used, time threhsold before up the power ----------------------------------------
+
+Model 1,"{'Power': 0.30000000000000004, 'Delta': 0.0, 'timeThresh': 7.0, 'Thresh': 15.0, 'Time': 2.409796296296296, 'mAh': 722.9388888888889}"
+Model 2,"{'Power': 0.4, 'Delta': 0.0, 'timeThresh': 9.5, 'Thresh': 15.0, 'Time': 5.558402777777778, 'mAh': 2223.3611111111113}"
+Model 3,"{'Power': 0.30000000000000004, 'Delta': 0.0, 'timeThresh': 7.0, 'Thresh': 15.0, 'Time': 2.380157407407407, 'mAh': 714.0472222222222}"
+Model 4,"{'Power': 0.2, 'Delta': 0.0, 'timeThresh': 7.5, 'Thresh': 15.0, 'Time': 3.639527777777778, 'mAh': 727.9055555555556}"

@@ -9,18 +9,26 @@ def main():
     deltas = []
     while(value < 3):
         deltas.append(value)
-        value = value+0.2
+        value = value+0.5
+
+    timeThresh=[]
+    value=1
+    while(value < 10):
+        timeThresh.append(value)
+        value = value+0.5
 
     models = [1, 2, 3, 4]
-    power = [0.2, 0.3, 0.4, 0.5]
+    # power = [0.2]
+
+    # models = [2, 3, 4]
 
     for i in models:
         for delta in deltas:
-            for k in range(10, 16):
-                for p in power:
+            for k in range(13, 16):
+                for t in timeThresh:
 
                     # Timestep model runs for as input too maybe?
-                    fl = flask(i, k, delta, p)
+                    fl = flask(i, k, delta, 0.2,t)
 
                     with open("temp.csv") as f:
                         for temp in f:

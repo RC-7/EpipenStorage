@@ -1,0 +1,14 @@
+Model 1,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 4.250722222, 'mAh': 850.1444444000001}"
+Model 2,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 13.32252778, 'mAh': 2664.505556}"
+Model 3,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 4.181555556, 'mAh': 836.3111112000001}"
+Model 4,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 4.283472222, 'mAh': 856.6944444000001}"
+
+Model 1,"{'Thresh': 15.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 3.614722222, 'mAh': 722.9444444000001}"
+Model 2,"{'Thresh': 15.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 11.10902778, 'mAh': 2221.8055560000003}"
+Model 3,"{'Thresh': 15.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 3.57025, 'mAh': 714.0500000000001}"
+Model 4,"{'Thresh': 15.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 3.639527778, 'mAh': 727.9055556000001}"
+
+Model 1,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.743694444, 'mAh': 748.7388888}"
+Model 2,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 11.53375, 'mAh': 2306.75}"
+Model 3,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.682138889, 'mAh': 736.4277778000001}"
+Model 4,"{'Thresh': 15.0, 'Delta': 0.2, 'Power': 0.2, 'Time': 3.77325, 'mAh': 754.6500000000001}"

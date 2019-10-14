@@ -101,6 +101,8 @@ class tempModel():
         innerR = 1.8/100
         initial = temps[0]
 
+        self.specificHeat=1004
+
         temps[0] = self.outerwall
         self.outerwall = self.fourierConvectionSolution(
             temps, outerR, stainlessK, 502)  # Temp on inside of outer wall

@@ -69,7 +69,7 @@ class flask():
             self.peltier.on = False
         #     # print(self.tempInner)
 
-        # self.tempInner = self.peltierEffect(ambient, self.tempInner)          #Uncomment Me
+        self.tempInner = self.peltierEffect(ambient, self.tempInner)          #Uncomment Me
 
         # if(self.tempInner>15):
         #     print(self.tempInner)
@@ -85,7 +85,7 @@ class flask():
 
     def peltierEffect(self, ambient, internal):  # Need to add lower check!!!!!!!!!!!!!
 
-        secondsInHourOn = 0.1
+        secondsInHourOn = 0.1           ##For final sim make this more granular
         newtemp = 0
         temp = 0
         cooling = False
@@ -143,7 +143,7 @@ class flask():
                     return newtemp
 
                     # cooling=False
-                    secondsInHourOn = secondsInHourOn+0.1
+                secondsInHourOn = secondsInHourOn+0.1
 
                 # else:
                 #     secondsInHourOn=0.1

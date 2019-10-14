@@ -7,7 +7,7 @@ class circuit():
 
         self.sensorOff=40*10**-3             #Not sure if need a sensor On??
 
-        self.sensorOn=self.sensorOff
+        self.sensorOn=20
 
         self.peltTIme=peltierUseTime
         

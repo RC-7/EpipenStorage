@@ -64,6 +64,10 @@ class flask():
 
             self.peltier.on = True
             # print(self.peltier.on)
+
+        elif(self.tempInner < 3):
+            self.peltier.on=True
+
         else:
 
             self.peltier.on = False
@@ -89,6 +93,7 @@ class flask():
         newtemp = 0
         temp = 0
         cooling = False
+        heating=False
 
         rAir = (math.log(self.innerR/(self.innerR-0.01))) / \
             (2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
@@ -108,13 +113,15 @@ class flask():
         else:
             newtemp = internal-dT
 
-        if(newtemp < (self.threshold)):
+        if((newtemp < (self.threshold))and(newtemp >3)):
 
             return newtemp
         else:
             temp = newtemp
             if(temp > (self.threshold)):
                 cooling = True
+            if(temp<3):
+                heating=True
 
             while (cooling):
 
@@ -133,7 +140,8 @@ class flask():
                 # print(newtemp)
                 if (newtemp < (self.threshold-self.delta)):
 
-                    self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
+                    # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
+                    self.peltierTime = self.peltierTime+secondsInHourOn
 
                     if(self.peltierPower>self.maxPeltPower):
                         self.maxPeltPower=self.peltierPower
@@ -148,6 +156,42 @@ class flask():
                 # else:
                 #     secondsInHourOn=0.1
                 #     self.peltierPower=self.peltierPower+0.1
+
+
+            while (heating):
+
+                # if (secondsInHourOn<self.timeThresh):
+                newtemp = temp
+
+                Q = self.peltierPower*(secondsInHourOn)
+                # dT=Q/(self.density*self.volumeInner*self.specificHeat)
+
+                dT = Q/(self.specificHeat*(self.volumeInner*self.density))
+                # print(dT)
+
+                # dT=Q*rAir
+                # temp=newtemp
+                newtemp = newtemp+dT
+                # print(newtemp)
+                if (newtemp >3):
+
+                    # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
+                    self.peltierTime = self.peltierTime+secondsInHourOn
+
+                    if(self.peltierPower>self.maxPeltPower):
+                        self.maxPeltPower=self.peltierPower
+
+                    self.peltierPower=0.2
+
+                    return newtemp
+
+                    # cooling=False
+                secondsInHourOn = secondsInHourOn+0.1
+
+                # else:
+                #     secondsInHourOn=0.1
+                #     self.peltierPower=self.peltierPower+0.1
+
 
     def visualisedata(self):
 

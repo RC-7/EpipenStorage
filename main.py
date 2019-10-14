@@ -52,7 +52,8 @@ def main():
                         value+=1
 
                         if (value>hours[month]):
-                            circ=circuit(fl.peltierTime/(60**2),hours[month])
+                            # print(str(fl.peltierTime/(60**2)))
+                            circ=circuit((fl.peltierTime/(60**2)),hours[month])
                             powerUsage.append(circ.calculateTotalPower())
                             value=0
                             month=(month+1)%12
@@ -62,9 +63,10 @@ def main():
 
 
                 
+                print((powerUsage))
                 print(max(powerUsage))
                 powerUsage=[]
-                fl.visualisedata()
+                # fl.visualisedata()
                 # fl.recordPeltierTime()
                 # fl.visualiseTempDiff()
 

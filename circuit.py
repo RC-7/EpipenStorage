@@ -21,7 +21,7 @@ class circuit():
 
         self.batteryTest=4.25           #Need this constantly on?? If can have it just do it!!
 
-        self.peltierOn=200
+        self.peltierOn=200*2
 
         self.peltierOff=74*10**-6
 

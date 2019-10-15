@@ -8,7 +8,7 @@ def analysePeltier(modelResults,result):
 
 
     # with open("tempTest.csv",'r') as f:
-    with open("PowerUsage/finalThresh.csv",'r') as f:
+    with open("PowerUsage/finalDelta",'r') as f:
         # next(f)
         for line in f:
             res=line.strip().split(",")
@@ -77,22 +77,29 @@ def main():
 
     kVals = []
     
-    thresh=10
+    # thresh=10
 
-    while(thresh<15.5):
-        kVals.append(thresh)
-        thresh+=0.5
+    # while(thresh<15.5):
+    #     kVals.append(thresh)
+    #     thresh+=0.5
 
-    print(kVals)
+    # print(kVals)
+
+
+    kVals = []
+    value=0
+    while(value < 3):
+        kVals.append(value)
+        value = value+0.5
 
     plt.plot(kVals,res["Model 1"])
     plt.plot(kVals,res["Model 2"])
     plt.plot(kVals,res["Model 3"])
     plt.plot(kVals,res["Model 4"])
-    plt.xlabel("Upper threshold ($^\circ$C)")
+    plt.xlabel("Temperature difference ($^\circ$C)")
     plt.ylabel("Time peltier is in operation (h)")
     plt.legend(["Model 1", "Model 2", "Model 3", "Model 4"])
-    plt.savefig('../results/thresh', transparent=True, bbox_inches=0,dpi=100)
+    plt.savefig('../results/delta', transparent=True, bbox_inches=0,dpi=100)
     # plt.show()
 
     # saveResults(modelResults)

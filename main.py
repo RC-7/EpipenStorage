@@ -17,9 +17,9 @@ def main():
     modelUsage = []
 
     deltas = [0]
-    while(value < 3):
-        deltas.append(value)
-        value = value+0.5
+    # while(value < 3):
+    #     deltas.append(value)
+    #     value = value+0.5
 
     # timeThresh=[]
     # value=1

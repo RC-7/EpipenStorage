@@ -36,6 +36,24 @@ def visualiseAllTemp():
     plt.show()
 
 
+def visualiseMultisim():
+
+    dataFile = pandas.read_csv(
+            "../Multisim/BatteryDraw.csv", names=["Battery Voltage","LED Current"])
+    df = pandas.DataFrame(dataFile)
+    ax=df.plot("Battery Voltage",legend=False)
+    # ax.axvline(x=3.55, color='r', linestyle='--')
+    ax.set_ylabel("Current draw(A)")
+    ax.set_xlabel("Battery Voltage (V)")
+    plt.savefig('../results/BatteryDraw', transparent=True, bbox_inches=0,dpi=100)
+
+    
+
+    # plt.savefig('../results/InternalWithPelt', transparent=True, bbox_inches=0,dpi=100)
+
+    plt.show()
+
+
 
 def main():
 
@@ -63,8 +81,8 @@ def main():
     # models = [1, 2, 3, 4]
     # power = [0.2]
 
-    # models = []
-    models = [1, 2, 3, 4]
+    models = []
+    # models = [1, 2, 3, 4]
 
     kVals = [15]
     pelt=[]
@@ -77,6 +95,8 @@ def main():
     #     kVals.append(thresh)
     #     thresh+=0.5
     # visualiseAllTemp()
+
+    visualiseMultisim()
         
 
     for i in models:

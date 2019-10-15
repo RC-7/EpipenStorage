@@ -259,7 +259,7 @@ class flask():
             f.write("Model "+self.outfile[5]+","+str(max(P))+"\n")
 
     def recordPeltierTime(self):
-        with open("PowerUsage/varPower", "a") as f:
+        with open("PowerUsage/finalDelta", "a") as f:
             # f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(
             #     self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+","+str(self.timeThresh)+"\n")
             f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(

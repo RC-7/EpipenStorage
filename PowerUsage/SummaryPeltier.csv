@@ -1,3 +1,5 @@
+---------- No delta P----------
+
 Model 1,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 4.250722222, 'mAh': 850.1444444000001}"
 Model 2,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 13.32252778, 'mAh': 2664.505556}"
 Model 3,"{'Thresh': 14.0, 'Delta': 0.0, 'Power': 0.2, 'Time': 4.181555556, 'mAh': 836.3111112000001}"
@@ -28,3 +30,14 @@ Model 1,"{'Power': 0.30000000000000004, 'Delta': 0.0, 'timeThresh': 7.0, 'Thresh
 Model 2,"{'Power': 0.4, 'Delta': 0.0, 'timeThresh': 9.5, 'Thresh': 15.0, 'Time': 5.558402777777778, 'mAh': 2223.3611111111113}"
 Model 3,"{'Power': 0.30000000000000004, 'Delta': 0.0, 'timeThresh': 7.0, 'Thresh': 15.0, 'Time': 2.380157407407407, 'mAh': 714.0472222222222}"
 Model 4,"{'Power': 0.2, 'Delta': 0.0, 'timeThresh': 7.5, 'Thresh': 15.0, 'Time': 3.639527777777778, 'mAh': 727.9055555555556}"
+
+
+------ Dont need 
+Model 1,"{'Thresh': 15.0, 'Delta': 2.8000000000000003, 'Power': 0.2, 'Time': 965.6888888888889}"
+Model 2,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.4, 'Time': 3290.8416666666667}"
+Model 3,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.2, 'Time': 930.1444444444444}"
+Model 4,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.2, 'Time': 955.2222222222222}"
+Model 1,"{'Thresh': 15.0, 'Delta': 2.8000000000000003, 'Power': 0.2, 'Time': 965.6888888888889}"
+Model 2,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.4, 'Time': 3290.8416666666667}"
+Model 3,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.2, 'Time': 930.1444444444444}"
+Model 4,"{'Thresh': 15.0, 'Delta': 2.5, 'Power': 0.2, 'Time': 955.2222222222222}"

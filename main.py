@@ -17,9 +17,9 @@ def main():
     modelUsage = []
 
     deltas = [0]
-    # while(value < 3):
-    #     deltas.append(value)
-    #     value = value+0.5
+    while(value < 3):
+        deltas.append(value)
+        value = value+0.5
 
     # timeThresh=[]
     # value=1
@@ -34,6 +34,16 @@ def main():
     models = [1, 2, 3, 4]
 
     kVals = [15]
+
+    # kVals = []
+    
+    # thresh=10
+
+    # while(thresh<15.5):
+    #     kVals.append(thresh)
+    #     thresh+=0.5
+
+        
 
     for i in models:
         for delta in deltas:
@@ -52,35 +62,39 @@ def main():
                         fl.updateTemp(float(temp))
                         value += 1
 
-                        if (value > hours[month]):
-                            # print(str(fl.peltierTime/(60**2)))
-                            circ = circuit(
-                                (fl.peltierTime/(60**2)), hours[month])
-                            powerUsage.append(circ.calculateTotalPower())
-                            value = 0
-                            month = (month+1) % 12
-                            fl.peltierTime = 0
+                        # if (value > hours[month]):
+                        #     # print(str(fl.peltierTime/(60**2)))
+                        #     circ = circuit(
+                        #         (fl.peltierTime/(60**2)), hours[month])
+                        #     powerUsage.append(circ.calculateTotalPower())
+                        #     value = 0
+                        #     month = (month+1) % 12
+                        #     fl.peltierTime = 0
 
-                modelUsage.append(powerUsage)
+                # modelUsage.append(powerUsage)
                 # print((powerUsage))
                 # print(max(powerUsage))
                 powerUsage = []
                 # fl.visualisedata()
-                # fl.recordPeltierTime()
+                fl.recordPeltierTime()
                 # fl.visualiseTempDiff()
-    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    # x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    x = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","June","Jul"]
 
     # print(modelUsage[0])
     # for i in range(len(modelUsage[0])):
     #     plt.plot([pt[i] for pt in modelUsage],label = 'id %s'%i)
 
-    plt.plot(modelUsage[0])
-    plt.plot(modelUsage[1])
-    plt.plot(modelUsage[2])
-    plt.plot(modelUsage[2])
-    plt.legend(["Model 1", "Model 2", "Model 3", "Model 4"])
-
-    plt.show()
+    # plt.plot(x,modelUsage[0])
+    # plt.plot(modelUsage[1])
+    # plt.plot(modelUsage[2])
+    # plt.plot(modelUsage[3])
+    # plt.xlabel("Month")
+    # plt.ylabel("Energy used (mAh)")
+    # plt.legend(["Model 1", "Model 2", "Model 3", "Model 4"])
+    # plt.savefig('../results/energyFinal', transparent=True, bbox_inches=0,dpi=100)
+    # # plt.show()
 
     # fl.visualisePeltierPowerNeeded(60**2)     #Loop times here for post analysis, maybe also do a calc for time given P
 

@@ -34,6 +34,7 @@ class flask():
                   50: 28.08}
         self.peltierTime = 0
         self.maxPeltPower=0.2
+        self.secondsOn=[]
         # self.timeThresh=timeThresh
 
         self.peltierPower = power
@@ -42,7 +43,7 @@ class flask():
 
         self.peltier = peltier()
         # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radiuss
-        self.outfile = "Model"+str(modelNumber)+".txt"
+        self.outfile = "Model"+str(modelNumber)+".csv"
 
         self.threshold = thr
         self.delta = delta
@@ -142,6 +143,7 @@ class flask():
 
                     # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
                     self.peltierTime = self.peltierTime+secondsInHourOn
+                    self.secondsOn.append(secondsInHourOn)
 
                     if(self.peltierPower>self.maxPeltPower):
                         self.maxPeltPower=self.peltierPower
@@ -177,6 +179,7 @@ class flask():
 
                     # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
                     self.peltierTime = self.peltierTime+secondsInHourOn
+                    self.secondsOn.append(secondsInHourOn)
 
                     if(self.peltierPower>self.maxPeltPower):
                         self.maxPeltPower=self.peltierPower
@@ -204,6 +207,9 @@ class flask():
         axes[0].axhline(y=15, color='r', linestyle='-')
         line = df.plot(ax=axes[0], kind='line', y='Internal')
         line = df.plot(ax=axes[1], kind='line', y='Ambient')
+
+        for ax in axes.flat:
+            ax.set(xlabel='x-label', ylabel='y-label')
 
         plt.show()
 

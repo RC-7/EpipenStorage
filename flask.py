@@ -11,7 +11,7 @@ class flask():
     def __init__(self, modelNumber, thr, delta, power):
         self.tempInner = 8  # Set initial temperature to middle of range we want
         self.radius = 2/100  # initial estimate, 1.2 for eppi pen, rest for peltier and other wall
-        self.wallThickness = 0.1
+        self.wallThickness = 0.1/100
         self.length = 16/100  # has a margin, need 14.8 only
         self.areaOuter = 2*math.pi*self.radius*self.length + \
             2*math.pi*self.radius**2  # has top and bottom
@@ -35,6 +35,8 @@ class flask():
         self.peltierTime = 0
         self.maxPeltPower=0.2
         self.secondsOn=[]
+
+        # self.weight=(math.pi*self.outerR**2*0.1+2*math.pi*self.outerR*0.1+math.pi*self.innerR**2*0.1+2*math.pi*self.innerR*0.1+100)*8.03
         # self.timeThresh=timeThresh
 
         self.peltierPower = power
@@ -84,8 +86,10 @@ class flask():
 
         # self.tempInner=self.tempInner-4
 
+
+# Uncomment me!!!
         with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
-        # with open("PeltOverall/"+str(self.threshold)+self.outfile,'a') as f:
+        # # with open("PeltOverall/"+str(self.threshold)+self.outfile,'a') as f:
             f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
 
     def peltierEffect(self, ambient, internal):  # Need to add lower check!!!!!!!!!!!!!
@@ -97,7 +101,7 @@ class flask():
         heating=False
 
         rAir = (math.log(self.innerR/(self.innerR-0.01))) / \
-            (2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
+            (2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.016)
 
         self.peltier.updateConductivity(ambient, internal)
 
@@ -113,6 +117,8 @@ class flask():
             newtemp = internal+dT
         else:
             newtemp = internal-dT
+
+        # return newtemp
 
         if((newtemp < (self.threshold))and(newtemp >3)):
 
@@ -153,11 +159,11 @@ class flask():
                     return newtemp
 
                     # cooling=False
-                secondsInHourOn = secondsInHourOn+0.1
+                secondsInHourOn = secondsInHourOn+0.01
 
                 # else:
-                #     secondsInHourOn=0.1
-                #     self.peltierPower=self.peltierPower+0.1
+                #     secondsInHourOn=0.01
+                #     self.peltierPower=self.peltierPower+0.01
 
 
             while (heating):
@@ -175,7 +181,7 @@ class flask():
                 # temp=newtemp
                 newtemp = newtemp+dT
                 # print(newtemp)
-                if (newtemp >3):
+                if (newtemp >3+self.delta):
 
                     # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
                     self.peltierTime = self.peltierTime+secondsInHourOn
@@ -189,7 +195,7 @@ class flask():
                     return newtemp
 
                     # cooling=False
-                secondsInHourOn = secondsInHourOn+0.1
+                secondsInHourOn = secondsInHourOn+0.01
 
                 # else:
                 #     secondsInHourOn=0.1

@@ -46,6 +46,8 @@ class tempModel():
         self.outerwall = 12
         self.innerWall = 10
 
+        self.weight=(math.pi*self.outerR**2*0.001+2*math.pi*self.outerR*0.16*0.001+math.pi*self.innerR**2*0.001+2*math.pi*self.innerR*0.001*0.16)
+
     def initLambda(self):
         lambdas = []
         solved = False

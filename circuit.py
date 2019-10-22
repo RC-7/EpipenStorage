@@ -3,9 +3,9 @@ class circuit():
 
         self.MCU_off = 0.38*10**-3  # All in mA
 
-        self.MCU_on = (76+31)*10**-3  # Double check this
+        self.MCU_on = (76+31)*10**-3
 
-        self.sensorOff = 40*10**-3  # Not sure if need a sensor On??
+        self.sensorOff = 40*10**-3
 
         self.sensorOn = 20
 
@@ -19,7 +19,7 @@ class circuit():
 
         self.ePaperWriteTime = 0.5/(60**2)
 
-        self.batteryTest = 4.25  # Need this constantly on?? If can have it just do it!!
+        self.batteryTest = 4.25
 
         self.peltierOn = 200*2
 
@@ -49,7 +49,7 @@ class circuit():
         totalP = totalP+self.sensorOn*(self.peltTIme)*2
 
         totalP = totalP+self.ePaperWrite*self.totalTime * \
-            self.ePaperWriteTime  # update every hour, ask if okay, half
+            self.ePaperWriteTime
 
         totalP = totalP+self.batteryTest*self.totalTime
 

@@ -15,9 +15,7 @@ class peltier():
         self.kn = 0.0000334545*ambient**2-0.023350303*ambient+5.606333
         self.kp = 0.0000361558*internal**2-0.026351342*internal+6.22162
 
-        # print(self.kp)
 
         self.rn = (3*10**-3)/((self.kn*(6*4*10**-6))*10**0)
         self.rp = (3*10**-3)/((self.kp*(6*4*10**-6))*10**0)
 
-        # print(self.rp)

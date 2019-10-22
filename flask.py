@@ -10,17 +10,17 @@ from peltier import peltier
 class flask():
     def __init__(self, modelNumber, thr, delta, power):
         self.tempInner = 8  # Set initial temperature to middle of range we want
-        self.radius = 2/100  # initial estimate, 1.2 for eppi pen, rest for peltier and other wall
+        self.radius = 2/100
         self.wallThickness = 0.1
         self.length = 16/100  # has a margin, need 14.8 only
         self.areaOuter = 2*math.pi*self.radius*self.length + \
             2*math.pi*self.radius**2  # has top and bottom
         self.areainner = 2*math.pi*self.radius*self.length+2 * \
-            math.pi*self.radius**2  # change to be inner area and below
+            math.pi*self.radius**2
         self.volumeInner = math.pi*self.radius**2*self.length
         self.model = tempModel(modelNumber)
-        self.density = 1.1839  # Make depd on temperature, units kg/m^3
-        self.specificHeat = 1004  # Make depd on temperature,
+        self.density = 1.1839
+        self.specificHeat = 1004
         self.k = {0: 24.36,  # Assumes this is temp range inside will be opperating at
                   5: 24.74,
                   10: 25.12,
@@ -33,16 +33,15 @@ class flask():
                   45: 27.5,
                   50: 28.08}
         self.peltierTime = 0
-        self.maxPeltPower=0.2
-        self.secondsOn=[]
-        # self.timeThresh=timeThresh
+        self.maxPeltPower = 0.2
+        self.secondsOn = []
 
         self.peltierPower = power
 
         self.innerR = 1.8/100
 
         self.peltier = peltier()
-        # self.U=(0.01*self.k[int(self.tempInner/5)*5])/self.radiuss
+
         self.outfile = "Model"+str(modelNumber)+".csv"
 
         self.threshold = thr
@@ -59,42 +58,32 @@ class flask():
         self.updateOverallCoefficient()
 
         self.tempInner = self.model.newTemp(
-            [self.tempInner, ambient, self.U, self.areainner, (self.volumeInner*self.density), 1])      #1 is off by an order of magnitude??
+            [self.tempInner, ambient, self.U, self.areainner, (self.volumeInner*self.density), 1])
 
-        if(self.tempInner > self.threshold):  # Chose this more intelligently
+        if(self.tempInner > self.threshold):
 
             self.peltier.on = True
-            # print(self.peltier.on)
 
         elif(self.tempInner < 3):
-            self.peltier.on=True
+            self.peltier.on = True
 
         else:
 
             self.peltier.on = False
-        #     # print(self.tempInner)
 
-        self.tempInner = self.peltierEffect(ambient, self.tempInner)          #Uncomment Me
+        # Updates the temperature using the peltier
+        self.tempInner = self.peltierEffect(ambient, self.tempInner)
 
-        # if(self.tempInner>15):
-        #     print(self.tempInner)
-        # self.tempInner=self.tempInner-0.068
-        # print("-------")
-        # print(self.tempInner)
+        with open("TempSim/"+self.outfile, 'a') as f:
+            f.write(str(self.tempInner)+","+str(ambient)+"\n")
 
-        # self.tempInner=self.tempInner-4
-
-        with open("TempSim/"+self.outfile,'a') as f:                               #should maybe write in chunks? If slow do that with threading
-        # with open("PeltOverall/"+str(self.threshold)+self.outfile,'a') as f:
-            f.write(str(self.tempInner)+","+str(ambient)+"\n")      #Fix! See below
-
-    def peltierEffect(self, ambient, internal):  # Need to add lower check!!!!!!!!!!!!!
-
-        secondsInHourOn = 0.1           ##For final sim make this more granular
+    # Changes the internal temperature based on the peltier for the period it is off and on
+    def peltierEffect(self, ambient, internal):
+        secondsInHourOn = 0.1
         newtemp = 0
         temp = 0
         cooling = False
-        heating=False
+        heating = False
 
         rAir = (math.log(self.innerR/(self.innerR-0.01))) / \
             (2*math.pi*self.k[int(internal/5)*5]*10**(-3)*0.16)
@@ -114,87 +103,63 @@ class flask():
         else:
             newtemp = internal-dT
 
-        if((newtemp < (self.threshold))and(newtemp >3)):
+        if((newtemp < (self.threshold))and(newtemp > 3)):
 
             return newtemp
         else:
             temp = newtemp
             if(temp > (self.threshold)):
                 cooling = True
-            if(temp<3):
-                heating=True
+            if(temp < 3):
+                heating = True
 
             while (cooling):
 
-                # if (secondsInHourOn<self.timeThresh):
                 newtemp = temp
 
                 Q = self.peltierPower*(secondsInHourOn)
-                # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
                 dT = Q/(self.specificHeat*(self.volumeInner*self.density))
-                # print(dT)
 
-                # dT=Q*rAir
-                # temp=newtemp
                 newtemp = newtemp-dT
-                # print(newtemp)
+
                 if (newtemp < (self.threshold-self.delta)):
 
-                    # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
                     self.peltierTime = self.peltierTime+secondsInHourOn
                     self.secondsOn.append(secondsInHourOn)
 
-                    if(self.peltierPower>self.maxPeltPower):
-                        self.maxPeltPower=self.peltierPower
+                    if(self.peltierPower > self.maxPeltPower):
+                        self.maxPeltPower = self.peltierPower
 
-                    self.peltierPower=0.2
+                    self.peltierPower = 0.2
 
                     return newtemp
 
-                    # cooling=False
                 secondsInHourOn = secondsInHourOn+0.1
-
-                # else:
-                #     secondsInHourOn=0.1
-                #     self.peltierPower=self.peltierPower+0.1
-
 
             while (heating):
 
-                # if (secondsInHourOn<self.timeThresh):
                 newtemp = temp
 
                 Q = self.peltierPower*(secondsInHourOn)
-                # dT=Q/(self.density*self.volumeInner*self.specificHeat)
 
                 dT = Q/(self.specificHeat*(self.volumeInner*self.density))
-                # print(dT)
 
-                # dT=Q*rAir
-                # temp=newtemp
                 newtemp = newtemp+dT
-                # print(newtemp)
-                if (newtemp >3):
 
-                    # self.peltierTime = self.peltierTime+secondsInHourOn*self.peltierPower*10**3
+                if (newtemp > 3):
+
                     self.peltierTime = self.peltierTime+secondsInHourOn
                     self.secondsOn.append(secondsInHourOn)
 
-                    if(self.peltierPower>self.maxPeltPower):
-                        self.maxPeltPower=self.peltierPower
+                    if(self.peltierPower > self.maxPeltPower):
+                        self.maxPeltPower = self.peltierPower
 
-                    self.peltierPower=0.2
+                    self.peltierPower = 0.2
 
                     return newtemp
 
-                    # cooling=False
                 secondsInHourOn = secondsInHourOn+0.1
-
-                # else:
-                #     secondsInHourOn=0.1
-                #     self.peltierPower=self.peltierPower+0.1
-
 
     def visualisedata(self):
 
@@ -252,7 +217,6 @@ class flask():
                 else:
                     P.append(0)
 
-        # Uncomment and make figure for later analysis
         # plt.plot(P)
         # plt.show()
 
@@ -266,8 +230,6 @@ class flask():
 
     def recordPeltierTime(self):
         with open("PowerUsage/finalDelta", "a") as f:
-            # f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(
-            #     self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+","+str(self.timeThresh)+"\n")
+
             f.write("Model "+self.outfile[5]+","+str((self.threshold))+","+str(
                 self.delta)+","+str(self.maxPeltPower)+","+str((self.peltierTime)/(60**2))+"\n")
-            
